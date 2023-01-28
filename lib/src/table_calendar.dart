@@ -559,7 +559,7 @@ class _TableCalendarState<T> extends State<TableCalendar<T>> {
               return GestureDetector(
                 behavior: widget.dayHitTestBehavior,
                 onTap: () => _onDayTapped(day),
-                onLongPress: () => _onDayLongPressed(day),
+                /* onLongPress: () => _onDayLongPressed(day), */
                 child: _buildCell(day, focusedMonth),
               );
             },
