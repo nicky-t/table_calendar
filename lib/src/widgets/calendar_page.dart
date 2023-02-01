@@ -45,7 +45,8 @@ class CalendarPage extends StatelessWidget {
           if (weekNumberVisible) _buildWeekNumbers(context),
           Expanded(
             child: Column(
-              // border: tableBorder,
+              mainAxisSize: MainAxisSize.min,
+              border: tableBorder,
               children: [
                 if (dowVisible) _buildDaysOfWeek(context),
                 ..._buildCalendarDays(context),
