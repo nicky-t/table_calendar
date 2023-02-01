@@ -22,7 +22,7 @@ class CalendarPage extends StatelessWidget {
     required this.visibleDays,
     this.dowBuilder,
     required this.dayBuilder,
-    this.weekBuilder,
+    this.weekEventBuilder,
     this.weekNumberBuilder,
     this.dowDecoration,
     this.rowDecoration,
@@ -44,8 +44,8 @@ class CalendarPage extends StatelessWidget {
         children: [
           if (weekNumberVisible) _buildWeekNumbers(context),
           Expanded(
-            child: Table(
-              border: tableBorder,
+            child: Column(
+              // border: tableBorder,
               children: [
                 if (dowVisible) _buildDaysOfWeek(context),
                 ..._buildCalendarDays(context),
@@ -72,9 +72,9 @@ class CalendarPage extends StatelessWidget {
     );
   }
 
-  TableRow _buildDaysOfWeek(BuildContext context) {
-    return TableRow(
-      decoration: dowDecoration,
+  Widget _buildDaysOfWeek(BuildContext context) {
+    return Row(
+      // decoration: dowDecoration,
       children: List.generate(
         7,
         (index) => dowBuilder!(context, visibleDays[index]),
@@ -82,29 +82,29 @@ class CalendarPage extends StatelessWidget {
     );
   }
 
-  List<TableRow> _buildCalendarDays(BuildContext context) {
+  List<Widget> _buildCalendarDays(BuildContext context) {
     final rowAmount = visibleDays.length ~/ 7;
 
     if(weekEventBuilder != null) {
       return List.generate(rowAmount, (index) => index * 7)
         .map((index) => Stack(
           children: [
-              TableRow(
-                decoration: rowDecoration,
+              Row(
+                // decoration: rowDecoration,
                 children: List.generate(
                   7,
                   (id) => dayBuilder(context, visibleDays[index + id]),
                 ),
               ),
-              weekEventBuilder(context, visibleDays.getRange(index, index + 7))
+              weekEventBuilder?.call(context, visibleDays.getRange(index, index + 7).toList())
             ],
           ),
         ).toList();
     }
 
     return List.generate(rowAmount, (index) => index * 7)
-        .map((index) => TableRow(
-              decoration: rowDecoration,
+        .map((index) => Row(
+              // decoration: rowDecoration,
               children: List.generate(
                 7,
                 (id) => dayBuilder(context, visibleDays[index + id]),

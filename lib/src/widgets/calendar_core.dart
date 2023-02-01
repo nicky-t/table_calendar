@@ -119,9 +119,9 @@ class CalendarCore extends StatelessWidget {
 
             return SizedBox(
               height: constrainedRowHeight ?? rowHeight,
-              child: weekEventBuilder(context, days baseDay),
+              child: weekEventBuilder?.call(context, days, baseDay),
             );
-          }
+          },
           dowHeight: dowHeight,
           weekNumberVisible: weekNumbersVisible,
           weekNumberBuilder: (context, day) {
