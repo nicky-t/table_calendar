@@ -96,7 +96,7 @@ class CalendarPage extends StatelessWidget {
                   (id) => dayBuilder(context, visibleDays[index + id]),
                 ),
               ),
-              weekEventBuilder?.call(context, visibleDays.getRange(index, index + 7).toList())
+              weekEventBuilder!.call(context, visibleDays.getRange(index, index + 7).toList())
             ],
           ),
         ).toList();
