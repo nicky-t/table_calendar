@@ -17,6 +17,7 @@ class CalendarCore extends StatelessWidget {
   final DayBuilder? dowBuilder;
   final DayBuilder? weekNumberBuilder;
   final FocusedDayBuilder dayBuilder;
+  final Widget Function(BuildContext context, List<DateTime> days, DateTime focusedDay)? weekEventBuilder;
   final bool sixWeekMonthsEnforced;
   final bool dowVisible;
   final bool weekNumbersVisible;
@@ -37,6 +38,7 @@ class CalendarCore extends StatelessWidget {
     Key? key,
     this.dowBuilder,
     required this.dayBuilder,
+    this.weekEventBuilder,
     required this.onPageChanged,
     required this.firstDay,
     required this.lastDay,
@@ -105,6 +107,21 @@ class CalendarCore extends StatelessWidget {
               child: dayBuilder(context, day, baseDay),
             );
           },
+          weekEventBuilder: (context, days) {
+            DateTime baseDay;
+            final previousFocusedDay = focusedDay;
+            if (previousFocusedDay == null || previousIndex == null) {
+              baseDay = _getBaseDay(calendarFormat, index);
+            } else {
+              baseDay =
+                  _getFocusedDay(calendarFormat, previousFocusedDay, index);
+            }
+
+            return SizedBox(
+              height: constrainedRowHeight ?? rowHeight,
+              child: weekEventBuilder(context, days baseDay),
+            );
+          }
           dowHeight: dowHeight,
           weekNumberVisible: weekNumbersVisible,
           weekNumberBuilder: (context, day) {

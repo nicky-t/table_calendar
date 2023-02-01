@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 class CalendarPage extends StatelessWidget {
   final Widget Function(BuildContext context, DateTime day)? dowBuilder;
   final Widget Function(BuildContext context, DateTime day) dayBuilder;
+  final Widget Function(BuildContext context, List<DateTime> days)? weekEventBuilder;
   final Widget Function(BuildContext context, DateTime day)? weekNumberBuilder;
   final List<DateTime> visibleDays;
   final Decoration? dowDecoration;
@@ -21,6 +22,7 @@ class CalendarPage extends StatelessWidget {
     required this.visibleDays,
     this.dowBuilder,
     required this.dayBuilder,
+    this.weekBuilder,
     this.weekNumberBuilder,
     this.dowDecoration,
     this.rowDecoration,
@@ -82,6 +84,23 @@ class CalendarPage extends StatelessWidget {
 
   List<TableRow> _buildCalendarDays(BuildContext context) {
     final rowAmount = visibleDays.length ~/ 7;
+
+    if(weekEventBuilder != null) {
+      return List.generate(rowAmount, (index) => index * 7)
+        .map((index) => Stack(
+          children: [
+              TableRow(
+                decoration: rowDecoration,
+                children: List.generate(
+                  7,
+                  (id) => dayBuilder(context, visibleDays[index + id]),
+                ),
+              ),
+              weekEventBuilder(context, visibleDays.getRange(index, index + 7))
+            ],
+          ),
+        ).toList();
+    }
 
     return List.generate(rowAmount, (index) => index * 7)
         .map((index) => TableRow(
