@@ -46,7 +46,7 @@ class TableCalendarBase extends StatefulWidget {
     this.calendarFormat = CalendarFormat.month,
     this.dowBuilder,
     required this.dayBuilder,
-    required this.weekBuilder,
+    this.weekEventBuilder,
     this.dowHeight,
     required this.rowHeight,
     this.sixWeekMonthsEnforced = false,
